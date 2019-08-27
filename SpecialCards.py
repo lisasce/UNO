@@ -4,10 +4,9 @@ from NormalCards import Cards
 
 class SpecialCards(Cards):
     listOfSpecialCards = []
-    def __init__(self, name,color,actionNb, func):
+    def __init__(self, name,color,number, func):
         self.name = name
-        self.color = color
-        self.actionNb = actionNb
+        super(number, color)
         self.func = func
         SpecialCards.listOfSpecialCards.append(self)
 
