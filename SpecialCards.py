@@ -9,6 +9,10 @@ class SpecialCards(Cards):
         super().__init__(number, color)
         self.func = func
         SpecialCards.listOfSpecialCards.append(self)
+    def __str__(self):
+        if self.color == None:
+            return ('{self.name}').format(self=self)
+        return ('{self.name}'+ '-' +'{self.color}').format(self=self)
 
 def changeColor():
     pass
@@ -30,4 +34,3 @@ changeColor = SpecialCards('change color', None, None, changeColor)
 # passTurnG = SpecialCards('no turn', 'green', None,noTurn)
 
 #print(SpecialCards.listOfSpecialCards)
-
