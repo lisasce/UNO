@@ -6,7 +6,7 @@ class SpecialCards(Cards):
     listOfSpecialCards = []
     def __init__(self, name,color,number, func):
         self.name = name
-        super(number, color)
+        super().__init__(number, color)
         self.func = func
         SpecialCards.listOfSpecialCards.append(self)
 
