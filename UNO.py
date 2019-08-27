@@ -5,19 +5,21 @@ from NormalCards import Cards
 from SpecialCards import SpecialCards
 from UnoFunctions import *
 
+
 def givingCards():
-    card = (random.choice(listOfCards))
+    card = (random.choice(listOfNormalCards))
     gameStock.append(card)
+    card = (random.choice(listOfCards))
     listOfCards.remove(card)
-    for c in range (1,3):
+    for c in range (1,2):
         card = (random.choice(listOfCards))
         userCards.append(card)
         listOfCards.remove(card)
-    for c in range (1,3):
+    for c in range (1,2):
         card = (random.choice(listOfCards))
         computerCards.append(card)
         listOfCards.remove(card)
-    for c in range (1,3):
+    for c in range (1,2):
         card = (random.choice(listOfCards))
         fritzCards.append(card)
         listOfCards.remove(card)
@@ -50,7 +52,7 @@ def usersTurn():
     playersName = usersName
     showingUsersCards()
     gameStockCard =showingGameStock()
-    isItASpecialCard(gameStockCard, Specialcards)
+    isItASpecialCard(gameStockCard, SpecialCards)
     usersChoice= userInput()
     if usersChoice == None:
         pickOneCard(userCards, listOfCards, playersName)
@@ -79,7 +81,7 @@ def usersTurn():
 def computersTurn():
     playersName = 'Computer'
     gameStockCard =showingGameStock()
-    isItASpecialCard(gameStockCard, Specialcards)
+    isItASpecialCard(gameStockCard, SpecialCards)
     cardFound = False
     print("Computer's turn:")
     for c in computerCards:
@@ -105,7 +107,7 @@ def computersTurn():
 def fritzsTurn():
     playersName = 'Fritz'
     gameStockCard =showingGameStock()
-    isItASpecialCard(gameStockCard, Specialcards)
+    isItASpecialCard(gameStockCard, SpecialCards)
     cardFound = False
     print("Fritz's turn:")
     for c in fritzCards:
