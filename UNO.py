@@ -9,17 +9,16 @@ from UnoFunctions import *
 def givingCards():
     card = (random.choice(listOfNormalCards))
     gameStock.append(card)
-    card = (random.choice(listOfCards))
     listOfCards.remove(card)
-    for c in range (1,2):
+    for c in range (1,3):
         card = (random.choice(listOfCards))
         userCards.append(card)
         listOfCards.remove(card)
-    for c in range (1,2):
+    for c in range (1,3):
         card = (random.choice(listOfCards))
         computerCards.append(card)
         listOfCards.remove(card)
-    for c in range (1,2):
+    for c in range (1,3):
         card = (random.choice(listOfCards))
         fritzCards.append(card)
         listOfCards.remove(card)
@@ -49,39 +48,45 @@ def userInput():
     userInput()
 
 def usersTurn():
+    global actionExecuted
     playersName = usersName
-    showingUsersCards()
+    #showingUsersCards()
     gameStockCard =showingGameStock()
-    isItASpecialCard(gameStockCard, SpecialCards)
+    if actionExecuted == False:
+        actionExecuted=isItASpecialCard(gameStockCard, SpecialCards, userCards, listOfCards, playersName,gameStock)
+    showingUsersCards()
     usersChoice= userInput()
     if usersChoice == None:
-        pickOneCard(userCards, listOfCards, playersName)
-        print('your new card is:', str(card))
+        pickedCards = pickingCard(userCards, listOfCards, playersName)
+        print('for info your new card is:', ', '.join([str(card) for card in pickedCards]))
         time.sleep(2)
     elif usersChoice.number == gameStockCard.number or usersChoice.color == \
             gameStockCard.color or usersChoice.color == None:
         if usersChoice.color == None:
             userChoosingColor(usersChoice, colors)
-
         gameStock.append(usersChoice)
         userCards.remove(usersChoice)
+        if isinstance(card, SpecialCards):
+            actionExecuted = False
         print('good choice!','\n')
         if len(userCards) == 1:
             print('UNOOOOOO you have only 1 card left!')
         elif len(userCards) == 0:
             print(playersName, 'won! end of the game!')
-            return False
+            return False # game ends
         time.sleep(2)
         #showingGameStock()
     else:
-        pickOneCard(userCards, listOfCards, playersName)
+        pickingCard(userCards, listOfCards, playersName)
         print('your new card is:', str(card))
     return True
 
 def computersTurn():
+    global actionExecuted
     playersName = 'Computer'
     gameStockCard =showingGameStock()
-    isItASpecialCard(gameStockCard, SpecialCards)
+    if actionExecuted == False:
+        actionExecuted =isItASpecialCard(gameStockCard, SpecialCards, computerCards, listOfCards, playersName,gameStock)
     cardFound = False
     print("Computer's turn:")
     for c in computerCards:
@@ -89,10 +94,12 @@ def computersTurn():
                 or c.color == None:
             cardFound = True
             if c.color == None:
-                c.color = choosingColor(computerCards)
+                c.color = automaticChoosingColor(computerCards, colors)
             print('computer plays: ',c)
             gameStock.append(c)
             computerCards.remove(c)
+            if isinstance(card, SpecialCards):
+                actionExecuted = False
             if len(computerCards) == 1:
                 print('Computer says: UNOOOOOO guys!')
             elif len(computerCards) == 0:
@@ -101,13 +108,15 @@ def computersTurn():
             time.sleep(2)
             break
     if cardFound == False:
-        pickOneCard(computerCards, listOfCards, playersName)
+        pickingCard(computerCards, listOfCards, playersName)
     return True
 
 def fritzsTurn():
+    global actionExecuted
     playersName = 'Fritz'
     gameStockCard =showingGameStock()
-    isItASpecialCard(gameStockCard, SpecialCards)
+    if actionExecuted == False:
+        actionExecuted = isItASpecialCard(gameStockCard, SpecialCards, fritzCards, listOfCards, playersName,gameStock)
     cardFound = False
     print("Fritz's turn:")
     for c in fritzCards:
@@ -115,11 +124,13 @@ def fritzsTurn():
                 or c.color == None:
             cardFound = True
             if c.color == None:
-                c.color = choosingColor(fritzCards)
+                c.color = automaticChoosingColor(fritzCards, colors)
             time.sleep(2)
             print('Fritz plays: ',c)
             gameStock.append(c)
             fritzCards.remove(c)
+            if isinstance(card, SpecialCards):
+                actionExecuted = False
             if len(fritzCards) == 1:
                 print('Fritz says: UNOOOOOO guys!')
             elif len(fritzCards) == 0:
@@ -128,7 +139,7 @@ def fritzsTurn():
             time.sleep(2)
             break
     if cardFound == False:
-        pickOneCard(fritzCards, listOfCards, playersName)
+        pickingCard(fritzCards, listOfCards, playersName)
     return True
 
 def game():

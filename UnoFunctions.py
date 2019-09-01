@@ -2,22 +2,27 @@ import random
 import time
 
 
-def pickOneCard (playersCards,listOfCards,playersName):
-    card = (random.choice(listOfCards))
-    playersCards.append(card)
-    listOfCards.remove(card)
-    print(playersName, 'just picked a new card.\n')
+def pickingCard (playersCards,listOfCards,playersName, numberToPick=1):
+    pickedCards = []
+    for c in range(0,numberToPick):
+        card = (random.choice(listOfCards))
+        playersCards.append(card)
+        listOfCards.remove(card)
+        pickedCards.append(card)
+    print(playersName, 'just picked', numberToPick, 'new card(s).\n')
     print('Turn is over. \n')
     time.sleep(2)
+    return pickedCards
 
-def isItASpecialCard(gameStockCard, Specialcards):
+
+def isItASpecialCard(gameStockCard, Specialcards, playersCards, listOfCards, playersName, gameStock):
     if isinstance(gameStockCard, Specialcards):
-        gameStockCard.func()
+        gameStockCard.func(playersCards, listOfCards, playersName, gameStock)
+        return True
     else:
-        pass
+        return False
 
-def choosingColor(playersCards):
-        return playersCards[0].color
+
 
 
 def userChoosingColor(usersChoice, colors):
@@ -27,3 +32,15 @@ def userChoosingColor(usersChoice, colors):
             usersChoice.color = chosenColor
         else:
             userChoosingColor()
+
+
+def automaticChoosingColor(playersCards, colors):
+    for card in playersCards:
+        if card.color in colors:
+            chosenColor = card.color
+            print('you did choose: ', chosenColor, '\n')
+            return chosenColor
+
+
+
+
